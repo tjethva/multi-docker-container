@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - /app/node_modules   # do not try to map a folder up against app node modules inside the container
+      - .:/app    #the current folder outside the container to the app folder inside the container.#setting up that volume mount, anytime that the Docker container looks into the app folder #it's essentially gonna get a reference back to all these local files we have on our machine
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
+                      
